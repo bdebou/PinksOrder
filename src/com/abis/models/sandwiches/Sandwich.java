@@ -3,22 +3,32 @@ package com.abis.models.sandwiches;
 import com.abis.models.enums.BreadType;
 
 public abstract class Sandwich {
-    private String name;
+    private String nameFR;
+    private String nameNL;
     private Double price;
     private BreadType kind;
 
-    public Sandwich(String name, Double price, BreadType kind) {
-        this.name = name;
+    public Sandwich(String frName,String nlName, Double price, BreadType kind) {
+        this.nameFR = frName;
+        this.nameNL=nlName;
         this.price = price;
         this.kind = kind;
     }
 
-    public String getName() {
-        return name;
+
+    public String getNameNL() {
+        return nameNL;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameNL(String nameNL) {
+        this.nameNL = nameNL;
+    }
+    public String getNameFR() {
+        return nameFR;
+    }
+
+    public void setNameFR(String nameFR) {
+        this.nameFR = nameFR;
     }
 
     public Double getPrice() {
@@ -39,6 +49,6 @@ public abstract class Sandwich {
 
     @Override
     public String toString() {
-        return this.getName();
+        return this.getNameFR();
     }
 }

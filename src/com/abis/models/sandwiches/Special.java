@@ -3,7 +3,7 @@ package com.abis.models.sandwiches;
 import com.abis.models.enums.BreadType;
 
 public class Special extends HasDescription{
-    public Special(String name, Double price, BreadType kind, String description) {
-        super(name, price, kind, description);
+    public Special(String frName, String nlName, Double price, BreadType kind, String frDescription, String nlDescription) {
+        super(frName, nlName, price, kind, frDescription, nlDescription);
     }
 }
