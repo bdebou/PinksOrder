@@ -17,7 +17,7 @@ public class FileSandwichRepository implements SandwichRepository {
     private final List<Sandwich> sandwiches = new ArrayList<>();
 
     public FileSandwichRepository(File inputFile) {
-        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));) {
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String csvLine;
             /* escape the header line */
             br.readLine();
@@ -47,7 +47,7 @@ public class FileSandwichRepository implements SandwichRepository {
         String nameNL = items[3];
         String descriptionNL = items[4];
         Double price = Double.parseDouble(items[5]);
-        Sandwich sandwich = switch (type.toLowerCase()) {
+        return switch (type.toLowerCase()) {
             case "meat" -> new Meat(nameFR, nameNL, price);
             case "fish" -> new Fish(nameFR, nameNL, price);
             case "chicken" -> new Chicken(nameFR, nameNL, price);
@@ -56,7 +56,6 @@ public class FileSandwichRepository implements SandwichRepository {
             case "vegetarian" -> new Vegetarian(nameFR, nameNL, descriptionFR, descriptionNL, price);
             default -> throw new TypeNotImplementedException(type);
         };
-        return sandwich;
     }
 
     @Override
