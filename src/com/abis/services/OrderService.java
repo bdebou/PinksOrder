@@ -1,4 +1,9 @@
 package com.abis.services;
 
-public class OrderService extends CommonService{
+import com.abis.repositories.UnitOfWork;
+
+public class OrderService {
+    public OrderService(UnitOfWork uow) {
+
+    }
 }
