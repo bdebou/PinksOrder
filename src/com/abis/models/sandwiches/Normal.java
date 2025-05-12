@@ -1,4 +1,20 @@
 package com.abis.models.sandwiches;
 
-public abstract class Normal extends Sandwich{
+import com.abis.models.enums.BreadType;
+
+public abstract class Normal extends Sandwich {
+    private boolean salad = false;
+
+    public Normal(String name, Double price, BreadType kind, boolean salad) {
+        super(name, price, kind);
+        this.salad = salad;
+    }
+
+    public boolean isSalad() {
+        return salad;
+    }
+
+    public void setSalad(boolean salad) {
+        this.salad = salad;
+    }
 }
