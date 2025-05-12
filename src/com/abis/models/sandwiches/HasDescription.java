@@ -6,8 +6,8 @@ public abstract class HasDescription extends Sandwich {
     private String frDescription;
     private String nlDescription;
 
-    public HasDescription(String frName, String nlName, Double price, BreadType kind, String frDescription, String nlDescription) {
-        super(frName, nlName, price, kind);
+    public HasDescription(String frName, String nlName, String frDescription, String nlDescription, Double price) {
+        super(frName, nlName, price);
         this.frDescription = frDescription;
         this.nlDescription = nlDescription;
     }

@@ -2,8 +2,8 @@ package com.abis.models.sandwiches;
 
 import com.abis.models.enums.BreadType;
 
-public class Vegetarian extends HasDescription{
-    public Vegetarian(String frName, String nlName, Double price, BreadType kind, String frDescription, String nlDescription) {
-        super(frName, nlName, price, kind, frDescription, nlDescription);
+public class Vegetarian extends HasDescription {
+    public Vegetarian(String frName, String nlName, String frDescription, String nlDescription, Double price) {
+        super(frName, nlName, frDescription, nlDescription, price);
     }
 }

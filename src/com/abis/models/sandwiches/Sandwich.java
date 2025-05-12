@@ -8,11 +8,11 @@ public abstract class Sandwich {
     private Double price;
     private BreadType kind;
 
-    public Sandwich(String frName,String nlName, Double price, BreadType kind) {
+    public Sandwich(String frName, String nlName, Double price) {
         this.nameFR = frName;
-        this.nameNL=nlName;
+        this.nameNL = nlName;
         this.price = price;
-        this.kind = kind;
+        this.kind = BreadType.WHITE;
     }
 
 
@@ -23,6 +23,7 @@ public abstract class Sandwich {
     public void setNameNL(String nameNL) {
         this.nameNL = nameNL;
     }
+
     public String getNameFR() {
         return nameFR;
     }
