@@ -8,22 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    public Person student;
+    public Person orderingPerson;
     public String course;
     public List<Sandwich> sandwiches=new ArrayList<>();
 
-    public Order(List<Sandwich> sandwiches, String course, Person student) {
+    public Order(List<Sandwich> sandwiches, String course, Person orderingPerson) {
         this.sandwiches = sandwiches;
         this.course = course;
-        this.student = student;
+        this.orderingPerson = orderingPerson;
     }
 
-    public Person getStudent() {
-        return student;
+    public Person getOrderingPerson() {
+        return orderingPerson;
     }
 
-    public void setStudent(Person student) {
-        this.student = student;
+    public void setOrderingPerson(Person orderingPerson) {
+        this.orderingPerson = orderingPerson;
     }
 
     public String getCourse() {
