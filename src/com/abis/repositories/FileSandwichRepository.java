@@ -1,7 +1,7 @@
 package com.abis.repositories;
 
 import com.abis.models.sandwiches.*;
-import com.abis.repositories.exceptions.MissingTokenException;
+import com.abis.exceptiosn.MissingTokenException;
 import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.repositories.exceptions.TypeNotImplementedException;
@@ -29,7 +29,7 @@ public class FileSandwichRepository implements SandwichRepository {
                         Sandwich sandwich = getSandwich(items);
                         this.addSandwich(sandwich);
                     } else {
-                        throw new MissingTokenException("Missing token for <" + csvLine + ">");
+                        throw new MissingTokenException(csvLine);
                     }
                 } catch (MissingTokenException e) {
                     System.out.println(e.getMessage());
