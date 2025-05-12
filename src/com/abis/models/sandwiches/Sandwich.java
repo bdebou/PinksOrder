@@ -22,7 +22,9 @@ public abstract class Sandwich {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Sandwich sandwich = (Sandwich) o;
-        return Objects.equals(nameFR, sandwich.nameFR) && Objects.equals(nameNL, sandwich.nameNL) && Objects.equals(price, sandwich.price);
+        return nameFR.equalsIgnoreCase(sandwich.nameFR)
+                && nameNL.equalsIgnoreCase(sandwich.nameNL)
+                && price.equals(sandwich.price);
     }
 
     @Override
