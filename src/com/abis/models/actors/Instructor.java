@@ -3,7 +3,8 @@ package com.abis.models.actors;
 public class Instructor extends CanOrderSandwich {
     String courseName;
 
-    public Instructor(String courseName) {
+    public Instructor(String firstname, String lastname, String courseName) {
+        super(firstname, lastname);
         this.courseName = courseName;
     }
 
