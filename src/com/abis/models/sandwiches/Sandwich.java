@@ -2,6 +2,8 @@ package com.abis.models.sandwiches;
 
 import com.abis.models.enums.BreadType;
 
+import java.util.Objects;
+
 public abstract class Sandwich {
     private String nameFR;
     private String nameNL;
@@ -15,6 +17,18 @@ public abstract class Sandwich {
         this.kind = BreadType.WHITE;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Sandwich sandwich = (Sandwich) o;
+        return Objects.equals(nameFR, sandwich.nameFR) && Objects.equals(nameNL, sandwich.nameNL) && Objects.equals(price, sandwich.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameFR, nameNL, price);
+    }
 
     public String getNameNL() {
         return nameNL;
