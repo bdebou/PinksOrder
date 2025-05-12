@@ -1,4 +1,4 @@
-package com.abis.models;
+package com.abis.models.actors;
 
 public class OfficeManager extends Person{
 }

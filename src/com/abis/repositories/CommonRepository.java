@@ -1,4 +1,4 @@
 package com.abis.repositories;
 
-public class CommonRepository {
+public abstract class CommonRepository {
 }
