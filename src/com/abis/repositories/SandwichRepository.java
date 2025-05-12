@@ -12,4 +12,6 @@ public interface SandwichRepository {
     Sandwich getSandwichByName(String name) throws SandwichNotFoundException;
 
     List<Sandwich> getAll();
+
+    void removeSandwich(String nameOfSandwich);
 }

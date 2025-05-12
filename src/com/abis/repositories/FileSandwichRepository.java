@@ -26,21 +26,7 @@ public class FileSandwichRepository implements SandwichRepository {
                     /* Type;NameFR;DescFR;NameNL;DescNL;Price */
                     String[] items = csvLine.split(";");
                     if (items.length == 6) {
-                        String type = items[0];
-                        String nameFR = items[1];
-                        String descriptionFR = items[2];
-                        String nameNL = items[3];
-                        String descriptionNL = items[4];
-                        Double price = Double.parseDouble(items[5]);
-                        Sandwich sandwich = switch (type.toLowerCase()) {
-                            case "meat" -> new Meat(nameFR, nameNL, price);
-                            case "fish" -> new Fish(nameFR, nameNL, price);
-                            case "chicken" -> new Chicken(nameFR, nameNL, price);
-                            case "cheese" -> new Cheese(nameFR, nameNL, price);
-                            case "specials" -> new Special(nameFR, nameNL, descriptionFR, descriptionNL, price);
-                            case "vegetarian" -> new Vegetarian(nameFR, nameNL, descriptionFR, descriptionNL, price);
-                            default -> throw new TypeNotImplementedException(type);
-                        };
+                        Sandwich sandwich = getSandwich(items);
                         this.addSandwich(sandwich);
                     } else {
                         throw new MissingTokenException("Missing token for <" + csvLine + ">");
@@ -52,6 +38,25 @@ public class FileSandwichRepository implements SandwichRepository {
         } catch (IOException | TypeNotImplementedException | SandwichAlreadyExistsException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private static Sandwich getSandwich(String[] items) throws TypeNotImplementedException {
+        String type = items[0];
+        String nameFR = items[1];
+        String descriptionFR = items[2];
+        String nameNL = items[3];
+        String descriptionNL = items[4];
+        Double price = Double.parseDouble(items[5]);
+        Sandwich sandwich = switch (type.toLowerCase()) {
+            case "meat" -> new Meat(nameFR, nameNL, price);
+            case "fish" -> new Fish(nameFR, nameNL, price);
+            case "chicken" -> new Chicken(nameFR, nameNL, price);
+            case "cheese" -> new Cheese(nameFR, nameNL, price);
+            case "specials" -> new Special(nameFR, nameNL, descriptionFR, descriptionNL, price);
+            case "vegetarian" -> new Vegetarian(nameFR, nameNL, descriptionFR, descriptionNL, price);
+            default -> throw new TypeNotImplementedException(type);
+        };
+        return sandwich;
     }
 
     @Override
@@ -74,5 +79,15 @@ public class FileSandwichRepository implements SandwichRepository {
     @Override
     public List<Sandwich> getAll() {
         return this.sandwiches;
+    }
+
+    @Override
+    public void removeSandwich(String nameOfSandwich) {
+        try {
+            Sandwich sandwichToRemove = this.getSandwichByName(nameOfSandwich);
+            this.sandwiches.remove(sandwichToRemove);
+        } catch (SandwichNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
