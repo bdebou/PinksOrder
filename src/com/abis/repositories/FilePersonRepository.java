@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilePersonRepository implements PersonRepository {
-    Person instructor = new Instructor("Sandy", "Schillebeeckx", "JAVA Advanced SE");
-    Person student1 = new Student("Raghunath", "Singh", "TCS");
-    Person student2 = new Student("Bruno", "Deboubers", "ING");
-    Person student3 = new Student("Hans", "Decat", "Contraste");
-    Person student4 = new Student("Tushar", "Pandey", "Cognizant");
+    Person instructor = new Instructor("Sandy", "Schillebeeckx","Sandy.Schillebeeckx@abis.com", "JAVA Advanced SE");
+    Person student1 = new Student("Raghunath", "Singh","Raghunath.Singh@tcs.com", "TCS");
+    Person student2 = new Student("Bruno", "Deboubers","Bruno.Deboubers@ing.com", "ING");
+    Person student3 = new Student("Hans", "Decat","Hans.Decat@contraste.com", "Contraste");
+    Person student4 = new Student("Tushar", "Pandey","Tushar.Pandey@cognizant.com", "Cognizant");
 
     private List<Person> persons = new ArrayList<>();
 

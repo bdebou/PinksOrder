@@ -1,6 +1,8 @@
 package com.abis.models.actors;
 
-public class Person {
+import com.abis.exceptiosn.MissingTokenException;
+
+public abstract class Person {
     public String firstname;
     public String lastname;
     public String email;
@@ -9,11 +11,6 @@ public class Person {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-    }
-
-    public Person(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
     }
 
     public String getFirstname() {
@@ -43,5 +40,17 @@ public class Person {
     @Override
     public String toString() {
         return String.format("%s %s", this.firstname, this.lastname.toUpperCase());
+    }
+    public String getCSVFormat(){
+        StringBuilder sb = new StringBuilder()
+                .append(this.getClass().getSimpleName())
+                .append(';')
+                .append(this.getFirstname())
+                .append(';')
+                .append(this.getLastname())
+                .append(';')
+                .append(this.getEmail());
+
+        return sb.toString();
     }
 }
