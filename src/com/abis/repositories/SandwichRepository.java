@@ -13,5 +13,5 @@ public interface SandwichRepository {
 
     List<Sandwich> getAll();
 
-    void removeSandwich(String nameOfSandwich);
+    void removeSandwich(String nameOfSandwich) throws SandwichNotFoundException;
 }

@@ -81,12 +81,8 @@ public class FileSandwichRepository implements SandwichRepository {
     }
 
     @Override
-    public void removeSandwich(String nameOfSandwich) {
-        try {
-            Sandwich sandwichToRemove = this.getSandwichByName(nameOfSandwich);
-            this.sandwiches.remove(sandwichToRemove);
-        } catch (SandwichNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+    public void removeSandwich(String nameOfSandwich) throws SandwichNotFoundException {
+        Sandwich sandwichToRemove = this.getSandwichByName(nameOfSandwich);
+        this.sandwiches.remove(sandwichToRemove);
     }
 }
