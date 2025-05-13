@@ -52,7 +52,7 @@ public class FileSandwichRepository implements SandwichRepository {
             case "fish" -> new Fish(nameFR, nameNL, price);
             case "chicken" -> new Chicken(nameFR, nameNL, price);
             case "cheese" -> new Cheese(nameFR, nameNL, price);
-            case "specials" -> new Special(nameFR, nameNL, descriptionFR, descriptionNL, price);
+            case "special" -> new Special(nameFR, nameNL, descriptionFR, descriptionNL, price);
             case "vegetarian" -> new Vegetarian(nameFR, nameNL, descriptionFR, descriptionNL, price);
             default -> throw new TypeNotImplementedException(type);
         };
