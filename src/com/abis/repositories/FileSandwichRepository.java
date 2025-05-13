@@ -6,17 +6,17 @@ import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.repositories.exceptions.TypeNotImplementedException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileSandwichRepository implements SandwichRepository {
     private final List<Sandwich> sandwiches = new ArrayList<>();
+    private final File pathSandwichList;
 
     public FileSandwichRepository(File inputFile) {
+        this.pathSandwichList = inputFile;
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String csvLine;
             /* escape the header line */
@@ -64,6 +64,36 @@ public class FileSandwichRepository implements SandwichRepository {
             throw new SandwichAlreadyExistsException();
         }
         this.sandwiches.add(sandwich);
+        this.save();
+    }
+
+    private void save() {
+        File tmpFile = null;
+        boolean bSaved = false;
+        try {
+            tmpFile = File.createTempFile("sandwich", null);
+
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(tmpFile, StandardCharsets.UTF_8))) {
+                String csvLine;
+                /* escape the header line */
+                bw.write("Type;NameFR;DescFR;NameNL;DescNL;Price");
+                for (Sandwich sandwich : this.sandwiches) {
+                    bw.write(sandwich.getCSVLine());
+                    bw.write(System.lineSeparator());
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            if (this.pathSandwichList.delete()) {
+                bSaved = tmpFile.renameTo(this.pathSandwichList);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (!bSaved && tmpFile != null && tmpFile.exists()) {
+                tmpFile.delete();
+            }
+        }
     }
 
     @Override
