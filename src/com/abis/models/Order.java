@@ -12,8 +12,7 @@ public class Order {
     public String course;
     public List<Sandwich> sandwiches=new ArrayList<>();
 
-    public Order(List<Sandwich> sandwiches, String course, Person orderingPerson) {
-        this.sandwiches = sandwiches;
+    public Order(String course, Person orderingPerson) {
         this.course = course;
         this.orderingPerson = orderingPerson;
     }
@@ -43,9 +42,18 @@ public class Order {
     }
 
     public void addSandwich(Sandwich sandwich) throws MaxSandwichesReachedException {
-        if (sandwiches.size() <= 2){
+        if (sandwiches.size() < 2){
             sandwiches.add(sandwich);
         }
         else throw new MaxSandwichesReachedException("Maximum 2 sandwiches per person allowed!");
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderingPerson=" + orderingPerson +
+                ", course='" + course + '\'' +
+                ", sandwiches=" + sandwiches +
+                '}';
     }
 }

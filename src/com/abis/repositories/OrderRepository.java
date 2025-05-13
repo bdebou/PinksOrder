@@ -8,5 +8,5 @@ import java.util.List;
 public interface OrderRepository {
     List<Order> getAll();
     void addOrder(Order order);
-    Order getByStudent(Person person);
+    Order getByPerson(Person person);
 }

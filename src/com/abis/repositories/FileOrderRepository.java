@@ -1,6 +1,7 @@
 package com.abis.repositories;
 
 import com.abis.models.Order;
+import com.abis.models.actors.Person;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -11,12 +12,20 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileOrderRepository implements OrderRepository{
+
+    private List<Order> orders = new ArrayList<>();
+
+
+//    Order order1 = new Order()
+
     private String fileLocation = "C:\\temp\\javacourses\\orderhistory.csv";
 
     public String formatOrderToWrite(Order order) {
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy '@' hh:mm a");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy '@' hh:mm:ss a");
         String timestamp = fmt.format(LocalDateTime.now());
         StringBuilder stringBuilder = new StringBuilder("");
         stringBuilder.append(timestamp).append(";")
@@ -37,4 +46,21 @@ public class FileOrderRepository implements OrderRepository{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Order> getAll() {
+        return this.orders;
+    }
+
+    @Override
+    public void addOrder(Order order){
+        orders.add(order);
+    }
+
+    @Override
+    public Order getByPerson(Person person){
+        System.out.println("TBD");
+        return orders.get(0);
+    }
+
 }

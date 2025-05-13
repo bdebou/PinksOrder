@@ -17,8 +17,8 @@ public class MainBruno {
 
         uow.getSandwichRepository().getAll().stream().forEach(System.out::println);
 
-        OrderService orderService = new OrderService(uow);
-        System.out.println(orderService.printOutOrder());
+//        OrderService orderService = new OrderService(uow);
+  //      System.out.println(orderService.printOutOrder());
 
         SandwichRepository sandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
 
