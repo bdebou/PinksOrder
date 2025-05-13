@@ -67,7 +67,7 @@ public class Order {
         }
         String allSandwiches = stringBuilder.toString();
 
-        String formatted = String.format("%1$-15s%2$-15s%3$-20s%4$-50s%5$s", orderingPerson.lastname.toUpperCase(),
+        String formatted = String.format("%1$-15s%2$-15s%3$-15s%4$-50s%5$s", orderingPerson.lastname.toUpperCase(),
                 orderingPerson.firstname,course,allSandwiches,sandwiches.size());
         System.out.println(formatted);
  //        sandwiches.forEach(s1 -> stringBuilder.append(s1.getNameNL()).append(" "));
