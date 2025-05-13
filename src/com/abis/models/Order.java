@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private Person orderingPerson;
-    private String course;
-    private List<Sandwich> sandwiches=new ArrayList<>();
+    public Person orderingPerson;
+    public String course;
+    public List<Sandwich> sandwiches = new ArrayList<>();
 
     public Order(String course, Person orderingPerson) {
         this.course = course;
@@ -42,10 +42,9 @@ public class Order {
     }
 
     public void addSandwich(Sandwich sandwich) throws MaxSandwichesReachedException {
-        if (sandwiches.size() < 2){
+        if (sandwiches.size() < 2) {
             sandwiches.add(sandwich);
-        }
-        else throw new MaxSandwichesReachedException("Maximum 2 sandwiches per person allowed!");
+        } else throw new MaxSandwichesReachedException("Maximum 2 sandwiches per person allowed!");
     }
 
     @Override
@@ -55,5 +54,30 @@ public class Order {
                 ", course='" + course + '\'' +
                 ", sandwiches=" + sandwiches +
                 '}';
+    }
+
+    public String formatPrintOrder() {
+        StringBuilder stringBuilder = new StringBuilder("");
+
+        for(Sandwich s1 : sandwiches){
+            stringBuilder.append(s1.getNameNL())
+                    .append("/")
+                    .append(s1.getKind())
+                    .append(" ");
+        }
+        String allSandwiches = stringBuilder.toString();
+
+        String formatted = String.format("%1$-15s%2$-15s%3$-20s%4$-50s%5$s", orderingPerson.lastname.toUpperCase(),
+                orderingPerson.firstname,course,allSandwiches,sandwiches.size());
+        System.out.println(formatted);
+ //        sandwiches.forEach(s1 -> stringBuilder.append(s1.getNameNL()).append(" "));
+//      sandwiches.forEach(s1 -> stringBuilder.append(s1.getKind()).append(", "));
+
+
+
+
+            return formatted;
+
+
     }
 }

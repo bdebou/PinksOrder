@@ -4,6 +4,7 @@ import com.abis.models.sandwiches.Sandwich;
 import com.abis.repositories.FileOrderRepository;
 import com.abis.repositories.FilePersonRepository;
 import com.abis.repositories.FileSandwichRepository;
+import com.abis.repositories.exceptions.OrderNotFoundException;
 import com.abis.repositories.exceptions.PersonNotFoundException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.services.OrderService;
@@ -15,7 +16,7 @@ import java.util.List;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws PersonNotFoundException, SandwichNotFoundException, MaxSandwichesReachedException {
+    public static void main(String[] args) throws PersonNotFoundException, SandwichNotFoundException, MaxSandwichesReachedException, OrderNotFoundException {
         FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
         FilePersonRepository filePersonRepository = new FilePersonRepository();
         FileOrderRepository fileOrderRepository= new FileOrderRepository();
@@ -44,14 +45,9 @@ public class Main {
 
 
 
-        fileOrderRepository.addOrder(order1);
-        fileOrderRepository.addOrder(order2);
-        fileOrderRepository.addOrder(order3);
-        fileOrderRepository.addOrder(order4);
-        fileOrderRepository.addOrder(order5);
 
-        List<Order> orders = fileOrderRepository.getAll();
-        orders.forEach(System.out::println);
+        //List<Order> orders = fileOrderRepository.getAll();
+        //orders.forEach(System.out::println);
 
         fileOrderRepository.addOrder(order1);
         fileOrderRepository.writeOrderHistory(order1);
@@ -63,6 +59,12 @@ public class Main {
         fileOrderRepository.writeOrderHistory(order4);
         fileOrderRepository.addOrder(order5);
         fileOrderRepository.writeOrderHistory(order5);
+
+        Order order6 = fileOrderRepository.getByPerson(filePersonRepository.getPersonByName("Raghunath", "Singh"));
+        fileOrderRepository.printOrderRepo();
+
+
+
 
 
 

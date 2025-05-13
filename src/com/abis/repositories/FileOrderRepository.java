@@ -2,6 +2,7 @@ package com.abis.repositories;
 
 import com.abis.models.Order;
 import com.abis.models.actors.Person;
+import com.abis.repositories.exceptions.OrderNotFoundException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -20,8 +21,6 @@ public class FileOrderRepository implements OrderRepository{
 
     private List<Order> orders = new ArrayList<>();
 
-
-//    Order order1 = new Order()
 
     private String fileLocation = "C:\\temp\\javacourses\\orderhistory.csv";
 
@@ -59,9 +58,19 @@ public class FileOrderRepository implements OrderRepository{
     }
 
     @Override
-    public Order getByPerson(Person person){
-        System.out.println("TBD");
-        return orders.get(0);
+    public Order getByPerson(Person person) throws OrderNotFoundException {
+        return orders.stream()
+                .filter(p1 -> p1.orderingPerson.getFirstname().equalsIgnoreCase(person.getFirstname()) &&
+                              p1.orderingPerson.getLastname().equalsIgnoreCase(person.getLastname()))
+                .findFirst().orElseThrow(() -> new OrderNotFoundException("Order not found by person name"));
+    }
+
+    public void printOrderRepo(){
+        System.out.println("--------------------------------------------------------------------------------------------------------");
+        System.out.printf("%1$-15s%2$-15s%3$-15s%4$-50s%5$s\n", "Last Name","First Name", "Course", "Sandwich/Bread type", "Count");
+        for(Order order : orders){
+            System.out.println(order.formatPrintOrder());
+        }
     }
 
 }
