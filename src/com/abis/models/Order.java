@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    public Person orderingPerson;
-    public String course;
-    public List<Sandwich> sandwiches=new ArrayList<>();
+    private Person orderingPerson;
+    private String course;
+    private List<Sandwich> sandwiches=new ArrayList<>();
 
     public Order(String course, Person orderingPerson) {
         this.course = course;
