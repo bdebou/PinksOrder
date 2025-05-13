@@ -64,6 +64,8 @@ public abstract class Sandwich {
         this.kind = kind;
     }
 
+    public abstract String getCSVLine();
+
     @Override
     public String toString() {
         return this.getNameFR();

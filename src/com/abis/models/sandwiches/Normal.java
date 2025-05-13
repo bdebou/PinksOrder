@@ -1,7 +1,5 @@
 package com.abis.models.sandwiches;
 
-import com.abis.models.enums.BreadType;
-
 public abstract class Normal extends Sandwich {
     private boolean salad = false;
 
@@ -15,5 +13,23 @@ public abstract class Normal extends Sandwich {
 
     public void setSalad(boolean salad) {
         this.salad = salad;
+    }
+
+    @Override
+    public String getCSVLine() {
+        StringBuilder sb = new StringBuilder()
+                .append(this.getClass().getSimpleName())
+                .append(';')
+                .append(this.getNameFR())
+                .append(';')
+                //no descriptionFR
+                .append(';')
+                .append(this.getNameNL())
+                .append(';')
+                //no description NL
+                .append(';')
+                .append(this.getPrice());
+
+        return sb.toString();
     }
 }

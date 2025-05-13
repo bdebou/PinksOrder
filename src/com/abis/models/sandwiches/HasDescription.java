@@ -27,6 +27,23 @@ public abstract class HasDescription extends Sandwich {
     public void setFrDescription(String frDescription) {
         this.frDescription = frDescription;
     }
+    @Override
+    public String getCSVLine() {
+        StringBuilder sb = new StringBuilder()
+                .append(this.getClass().getSimpleName())
+                .append(';')
+                .append(this.getNameFR())
+                .append(';')
+                .append(this.getFrDescription())
+                .append(';')
+                .append(this.getNameNL())
+                .append(';')
+                .append((this.getNlDescription()))
+                .append(';')
+                .append(this.getPrice());
+
+        return sb.toString();
+    }
 
     @Override
     public String toString() {
