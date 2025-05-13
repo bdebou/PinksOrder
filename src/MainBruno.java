@@ -13,6 +13,8 @@ import com.abis.services.SandwichService;
 import com.abis.services.exceptions.NotAuthorizedException;
 import exception.MaxSandwichesReachedException;
 
+import java.nio.file.Path;
+
 public class MainBruno {
     public static void main(String[] args) {
         UnitOfWork uow = new UnitOfWork();
@@ -33,7 +35,7 @@ public class MainBruno {
                 normalSand.setKind(BreadType.GREY);
                 order.addSandwich(normalSand);
 
-                Special specialSand = (Special) sandwichService.getSandwichByName("maya");
+                Vegetarian specialSand = (Vegetarian) sandwichService.getSandwichByName("maya");
                 specialSand.setKind(BreadType.GREY);
                 order.addSandwich(specialSand);
 
@@ -45,6 +47,8 @@ public class MainBruno {
             }
             orderService.registerNewOrder(order);
             System.out.println(orderService.printOutOrder());
+            System.out.println(orderService.printOutOrderASCII());
+            orderService.printOutOrderASCII(Path.of("C:\\temp\\javacourses\\BDB_out.txt").toFile());
 
         } catch (PersonNotFoundException e) {
             System.out.println(e.getMessage());
