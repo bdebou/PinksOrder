@@ -1,8 +1,8 @@
 import com.abis.models.Order;
 import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
-import com.abis.models.sandwiches.Chicken;
-import com.abis.models.sandwiches.Normal;
+import com.abis.models.enums.BreadType;
+import com.abis.models.sandwiches.*;
 import com.abis.repositories.UnitOfWork;
 import com.abis.repositories.exceptions.PersonNotFoundException;
 import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
@@ -28,12 +28,18 @@ public class MainBruno {
 
             Order order = new Order("Java", bruno);
             try {
-                Normal normalSand = (Normal) sandwichService.getSandwichByName("Gouda");
+                Cheese normalSand = (Cheese) sandwichService.getSandwichByName("Gouda");
                 normalSand.setSalad(true);
-
+                normalSand.setKind(BreadType.GREY);
                 order.addSandwich(normalSand);
-                order.addSandwich(sandwichService.getSandwichByName("maya"));
-                order.addSandwich(sandwichService.getSandwichByName("rosbif"));
+
+                Special specialSand = (Special) sandwichService.getSandwichByName("maya");
+                specialSand.setKind(BreadType.GREY);
+                order.addSandwich(specialSand);
+
+                Meat meatSand = (Meat) sandwichService.getSandwichByName("rosbif");
+                meatSand.setSalad(false);
+                order.addSandwich(meatSand);
             } catch (MaxSandwichesReachedException | SandwichNotFoundException e) {
                 System.out.println(e.getMessage());
             }
