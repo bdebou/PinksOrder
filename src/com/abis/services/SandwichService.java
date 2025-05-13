@@ -43,4 +43,12 @@ public class SandwichService {
     public Sandwich getSandwichByName(String name) throws SandwichNotFoundException {
         return this.uow.getSandwichRepository().getSandwichByName(name);
     }
+
+    public String printListOfAllSandwiches() {
+        StringBuilder sb = new StringBuilder();
+        for (Sandwich sandwich : this.uow.getSandwichRepository().getAll()) {
+            //TODO write the code to display the paper result.
+        }
+        return sb.toString();
+    }
 }

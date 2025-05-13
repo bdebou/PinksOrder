@@ -18,6 +18,7 @@ public class FilePersonRepository implements PersonRepository {
     private List<Person> persons = new ArrayList<>();
 
     public FilePersonRepository() {
+        //TODO to get the list of Person based on CSV file, like we did for Sandwich
         persons.add(instructor);
         persons.add(student1);
         persons.add(student2);
@@ -50,12 +51,12 @@ public class FilePersonRepository implements PersonRepository {
 
     @Override
     public void addPerson(Person person) {
-
+// TODO Add the Person into the MemoryList, but add it also in CSV file
     }
 
     @Override
     public void removePerson(Person person) {
-
+// TODO Remove the Person from the memoryList and remove it also from CSV file.
     }
 
 }
