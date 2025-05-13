@@ -3,22 +3,22 @@ package com.abis.repositories;
 import java.nio.file.Path;
 
 public class UnitOfWork {
-    private SandwichRepository sandwichRepository;
-    private FileOrderRepository orderRepository;
-    private FilePersonRepository personRepository;
+    private final SandwichRepository sandwichRepository;
+    private final OrderRepository orderRepository;
+    private final PersonRepository personRepository;
 
     public UnitOfWork() {
-        this.sandwichRepository=new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
-//        this.orderRepository=new ???;
-//        this.personRepository=new ???;
+        this.sandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
+        this.personRepository = new FilePersonRepository();
+        this.orderRepository = new FileOrderRepository();
 
     }
 
-    public FileOrderRepository getOrderRepository() {
+    public OrderRepository getOrderRepository() {
         return orderRepository;
     }
 
-    public FilePersonRepository getPersonRepository() {
+    public PersonRepository getPersonRepository() {
         return personRepository;
     }
 
