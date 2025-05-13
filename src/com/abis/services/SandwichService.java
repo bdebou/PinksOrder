@@ -7,11 +7,14 @@ import com.abis.repositories.UnitOfWork;
 import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.services.exceptions.NotAuthorizedException;
+import de.vandermeer.asciitable.AT_Row;
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 
 import java.util.List;
 
 public class SandwichService {
-    private UnitOfWork uow;
+    private final UnitOfWork uow;
 
     public SandwichService(UnitOfWork uow) {
         this.uow = uow;
@@ -45,10 +48,15 @@ public class SandwichService {
     }
 
     public String printListOfAllSandwiches() {
-        StringBuilder sb = new StringBuilder();
+        AsciiTable at = new AsciiTable();
+        at.addRule();
+        AT_Row title = at.addRow("Type", "Naam", "Groeten Ja/Nee", "Grijs/Wit");
+        title.setTextAlignment(TextAlignment.CENTER);
+        at.addRule();
         for (Sandwich sandwich : this.uow.getSandwichRepository().getAll()) {
-            //TODO write the code to display the paper result.
+            at.addRow(sandwich.getClass().getSimpleName(), sandwich.getNameNL(), "", "");
         }
-        return sb.toString();
+        at.addRule();
+        return at.render();
     }
 }
