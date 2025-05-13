@@ -30,7 +30,7 @@ public class Main {
 
         Order order2 = new Order("Python", filePersonRepository.getPersonByName("Bruno","Deboubers"));
         order2.addSandwich(fileSandwichRepository.getSandwichByName("Martino"));
-        order2.addSandwich(fileSandwichRepository.getSandwichByName("Hawaiien"));
+        order2.addSandwich(fileSandwichRepository.getSandwichByName("Salami"));
 
         Order order3 = new Order("C++ Advanced", filePersonRepository.getPersonByName("Hans","Decat"));
         order3.addSandwich(fileSandwichRepository.getSandwichByName("Maya"));
