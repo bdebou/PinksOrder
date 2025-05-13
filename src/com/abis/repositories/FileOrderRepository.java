@@ -6,6 +6,7 @@ import com.abis.models.actors.Person;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +40,7 @@ public class FileOrderRepository implements OrderRepository{
     public void writeOrderHistory(Order order) {
         Path path = Paths.get(fileLocation);
         try (BufferedWriter writer =
-                     Files.newBufferedWriter(path, Charset.forName("UTF-8"), StandardOpenOption.APPEND)) {
+                     Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.APPEND)) {
             writer.newLine();
             writer.write(formatOrderToWrite(order));
         } catch (IOException e) {
