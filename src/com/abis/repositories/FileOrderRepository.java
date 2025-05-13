@@ -23,6 +23,7 @@ public class FileOrderRepository implements OrderRepository{
 
 
     private String fileLocation = "C:\\temp\\javacourses\\orderhistory.csv";
+    private String orderFileLocation = "C:\\temp\\javacourses\\order.csv";
 
     public String formatOrderToWrite(Order order) {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy '@' hh:mm:ss a");
@@ -66,6 +67,25 @@ public class FileOrderRepository implements OrderRepository{
     }
 
     public void printOrderRepo(){
+        Path path = Paths.get(orderFileLocation);
+        try (BufferedWriter writer =
+                     Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.APPEND)) {
+            writer.newLine();
+            writer.write("--------------------------------------------------------------------------------------------------------");
+            writer.newLine();
+            writer.write("--------------------------------------------------------------------------------------------------------");
+            writer.newLine();
+            String titleFormat = String.format("%1$-15s%2$-15s%3$-15s%4$-50s%5$s\n", "Last Name","First Name", "Course", "Sandwich/Bread type", "Count");
+            writer.write(titleFormat);
+            writer.newLine();
+            for(Order order : orders){
+                writer.write(order.formatPrintOrder());
+                writer.newLine();
+            }
+            writer.write("--------------------------------------------------------------------------------------------------------");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("--------------------------------------------------------------------------------------------------------");
         System.out.printf("%1$-15s%2$-15s%3$-15s%4$-50s%5$s\n", "Last Name","First Name", "Course", "Sandwich/Bread type", "Count");
         for(Order order : orders){
