@@ -26,10 +26,10 @@ public class FilePersonRepository implements PersonRepository {
     }
 
     @Override
-    public Person getPersonByName(String fname, String lname) throws PersonNotFoundException {
+    public Person getPersonByName(String firstName, String lastName) throws PersonNotFoundException {
 
         return this.persons.stream()
-                .filter(person1 -> person1.getFirstname().equalsIgnoreCase(fname) && person1.getLastname().equalsIgnoreCase(lname))
+                .filter(person1 -> person1.getFirstname().equalsIgnoreCase(firstName) && person1.getLastname().equalsIgnoreCase(lastName))
                 .findFirst().orElseThrow(() -> new PersonNotFoundException("Person not found with firstname"));
 
 
