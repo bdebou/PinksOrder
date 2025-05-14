@@ -15,7 +15,7 @@ import com.abis.models.exceptions.MaxSandwichesReachedException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-public class MainBruno {
+public class MainOrderMgt {
     public static void main(String[] args) {
         UnitOfWork uow = new UnitOfWork();
         OrderService orderService = new OrderService(uow);
