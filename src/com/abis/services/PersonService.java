@@ -2,6 +2,7 @@ package com.abis.services;
 
 import com.abis.models.actors.Person;
 import com.abis.repositories.UnitOfWork;
+import com.abis.repositories.exceptions.PersonAlreadyExistsException;
 import com.abis.repositories.exceptions.PersonNotFoundException;
 
 import java.util.List;
@@ -11,6 +12,10 @@ public class PersonService {
 
     public PersonService(UnitOfWork uow) {
         this.uow = uow;
+    }
+
+    public void addNewStudent(Person person) throws PersonAlreadyExistsException {
+        this.uow.getPersonRepository().addPerson(person);
     }
 
     public Person getPersonByEmail(String mail) throws PersonNotFoundException {

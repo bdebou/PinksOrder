@@ -9,7 +9,7 @@ public class UnitOfWork {
 
     public UnitOfWork() {
         this.sandwichRepository = new FileSandwichRepository(Path.of("inputcsv/sandwiches.csv").toFile());
-        this.personRepository = new FilePersonRepository();
+        this.personRepository = new FilePersonRepository(Path.of("inputcsv/persons.csv").toFile());
         this.orderRepository = new FileOrderRepository();
 
     }

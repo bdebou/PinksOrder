@@ -18,7 +18,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws PersonNotFoundException, SandwichNotFoundException, MaxSandwichesReachedException, OrderNotFoundException {
         FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/sandwiches.csv").toFile());
-        FilePersonRepository filePersonRepository = new FilePersonRepository();
+        FilePersonRepository filePersonRepository = new FilePersonRepository(Path.of("inputcsv/persons.csv").toFile());
         FileOrderRepository fileOrderRepository = new FileOrderRepository();
 
 

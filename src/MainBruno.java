@@ -38,6 +38,7 @@ public class MainBruno {
                 student = personService.getPersonByEmail(emailStudent);
             } catch (PersonNotFoundException e) {
                 student = createNewPerson(emailStudent);
+                PersonService.addNewStudent(student);
             }
             System.out.println(sandwichService.printListOfAllSandwiches());
             Order order = new Order(sessionName, student);
