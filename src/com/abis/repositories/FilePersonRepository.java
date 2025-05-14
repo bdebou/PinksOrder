@@ -2,6 +2,7 @@ package com.abis.repositories;
 
 import com.abis.exceptiosn.MissingTokenException;
 import com.abis.models.actors.Instructor;
+import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
 import com.abis.models.actors.Student;
 import com.abis.models.sandwiches.Sandwich;
@@ -49,6 +50,7 @@ public class FilePersonRepository implements PersonRepository {
         return switch (type.toLowerCase()) {
             case "student" -> new Student(items[1], items[2], items[3], items[4]);
             case "instructor" -> new Instructor(items[1], items[2], items[3], items[4]);
+            case "officemanager"->new OfficeManager(items[1],items[2],items[3]);
             default -> throw new TypeNotImplementedException(type);
         };
     }
