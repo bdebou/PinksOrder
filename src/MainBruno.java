@@ -1,5 +1,4 @@
 import com.abis.models.Order;
-import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
 import com.abis.models.actors.Student;
 import com.abis.models.enums.BreadType;
@@ -7,16 +6,13 @@ import com.abis.models.sandwiches.*;
 import com.abis.repositories.UnitOfWork;
 import com.abis.repositories.exceptions.PersonAlreadyExistsException;
 import com.abis.repositories.exceptions.PersonNotFoundException;
-import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.services.OrderService;
 import com.abis.services.PersonService;
 import com.abis.services.SandwichService;
-import com.abis.services.exceptions.NotAuthorizedException;
-import exception.MaxSandwichesReachedException;
+import com.abis.models.exceptions.MaxSandwichesReachedException;
 
 import java.nio.file.Path;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class MainBruno {
