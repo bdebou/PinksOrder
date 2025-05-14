@@ -19,31 +19,27 @@ public class Main {
     public static void main(String[] args) throws PersonNotFoundException, SandwichNotFoundException, MaxSandwichesReachedException, OrderNotFoundException {
         FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
         FilePersonRepository filePersonRepository = new FilePersonRepository();
-        FileOrderRepository fileOrderRepository= new FileOrderRepository();
+        FileOrderRepository fileOrderRepository = new FileOrderRepository();
 
 
-
-
-        Order order1 = new Order("JAVA", filePersonRepository.getPersonByName("Raghunath","Singh"));
+        Order order1 = new Order("JAVA", filePersonRepository.getPersonByName("Raghunath", "Singh"));
         order1.addSandwich(fileSandwichRepository.getSandwichByName("Brie"));
         order1.addSandwich(fileSandwichRepository.getSandwichByName("Brie"));
 
-        Order order2 = new Order("Python", filePersonRepository.getPersonByName("Bruno","Deboubers"));
+        Order order2 = new Order("Python", filePersonRepository.getPersonByName("Bruno", "Deboubers"));
         order2.addSandwich(fileSandwichRepository.getSandwichByName("Martino"));
         order2.addSandwich(fileSandwichRepository.getSandwichByName("Salami"));
 
-        Order order3 = new Order("C++ Advanced", filePersonRepository.getPersonByName("Hans","Decat"));
+        Order order3 = new Order("C++ Advanced", filePersonRepository.getPersonByName("Hans", "Decat"));
         order3.addSandwich(fileSandwichRepository.getSandwichByName("Maya"));
 
 
-        Order order4 = new Order("Kotlin", filePersonRepository.getPersonByName("Tushar","Pandey"));
+        Order order4 = new Order("Kotlin", filePersonRepository.getPersonByName("Tushar", "Pandey"));
         order4.addSandwich(fileSandwichRepository.getSandwichByName("Gouda"));
 
 
-        Order order5 = new Order("Javascript", filePersonRepository.getPersonByName("Sandy","Schillebeeckx"));
+        Order order5 = new Order("Javascript", filePersonRepository.getPersonByName("Sandy", "Schillebeeckx"));
         order5.addSandwich(fileSandwichRepository.getSandwichByName("Brie"));
-
-
 
 
         //List<Order> orders = fileOrderRepository.getAll();
@@ -63,15 +59,8 @@ public class Main {
         Order order6 = fileOrderRepository.getByPerson(filePersonRepository.getPersonByName("Raghunath", "Singh"));
         fileOrderRepository.printOrderRepo();
 
-
-
-
-
-
-
-
-
-
+        System.out.println("Total price of complete order: EUR " + fileOrderRepository.getTotalOrderPrice()
+                + " for " + fileOrderRepository.getTotalOrderSandwichCount() + " sandwiches.");
 
 
     }
