@@ -66,8 +66,16 @@ public abstract class Sandwich {
 
     public abstract String getCSVLine();
 
+    public String getInfo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getNameNL())
+                .append('/')
+                .append(this.getKind());
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
-        return this.getNameFR();
+        return this.getNameNL();
     }
 }
