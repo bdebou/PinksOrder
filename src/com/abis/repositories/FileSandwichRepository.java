@@ -27,7 +27,7 @@ public class FileSandwichRepository implements SandwichRepository {
                     String[] items = csvLine.split(";");
                     if (items.length == 6) {
                         Sandwich sandwich = getSandwich(items);
-                        this.addSandwich(sandwich);
+                        this.sandwiches.add(sandwich);
                     } else {
                         throw new MissingTokenException(csvLine);
                     }
@@ -35,7 +35,7 @@ public class FileSandwichRepository implements SandwichRepository {
                     System.out.println(e.getMessage());
                 }
             }
-        } catch (IOException | TypeNotImplementedException | SandwichAlreadyExistsException e) {
+        } catch (IOException | TypeNotImplementedException e) {
             System.out.println(e.getMessage());
         }
     }
