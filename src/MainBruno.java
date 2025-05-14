@@ -1,6 +1,7 @@
 import com.abis.models.Order;
 import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
+import com.abis.models.actors.Student;
 import com.abis.models.enums.BreadType;
 import com.abis.models.sandwiches.*;
 import com.abis.repositories.UnitOfWork;
@@ -14,6 +15,8 @@ import com.abis.services.exceptions.NotAuthorizedException;
 import exception.MaxSandwichesReachedException;
 
 import java.nio.file.Path;
+import java.sql.SQLOutput;
+import java.util.Scanner;
 
 public class MainBruno {
     public static void main(String[] args) {
@@ -22,52 +25,69 @@ public class MainBruno {
         SandwichService sandwichService = new SandwichService(uow);
         PersonService personService = new PersonService(uow);
 
-        System.out.println(sandwichService.printListOfAllSandwiches());
-        try {
-            Person bruno = personService.getPersonByEmail("bruno.deboubers@ing.com");
-            Person raghunath = personService.getPersonByName("Raghunath", "Singh");
-            Person instructor = personService.getPersonByName("Sandy", "Schillebeeckx");
+        Scanner scanner = new Scanner(System.in);
 
-            Order order = new Order("Java", bruno);
+        System.out.println("Hello and welcome to order your sandwich !");
+        System.out.println("Please enter the Session name ?");
+        String sessionName = scanner.nextLine();
+        do {
+            System.out.println("What is the email address of student ?");
+            String emailStudent = scanner.nextLine();
+            Person student;
             try {
-                Cheese normalSand = (Cheese) sandwichService.getSandwichByName("Gouda");
-                normalSand.setSalad(true);
-                normalSand.setKind(BreadType.GREY);
-                order.addSandwich(normalSand);
-
-                Vegetarian specialSand = (Vegetarian) sandwichService.getSandwichByName("maya");
-                specialSand.setKind(BreadType.GREY);
-                order.addSandwich(specialSand);
-
-                Meat meatSand = (Meat) sandwichService.getSandwichByName("rosbif");
-                meatSand.setSalad(false);
-                order.addSandwich(meatSand);
-            } catch (MaxSandwichesReachedException | SandwichNotFoundException e) {
-                System.out.println(e.getMessage());
+                student = personService.getPersonByEmail(emailStudent);
+            } catch (PersonNotFoundException e) {
+                student = createNewPerson(emailStudent);
             }
+            System.out.println(sandwichService.printListOfAllSandwiches());
+            Order order = new Order(sessionName, student);
+            do {
+                System.out.println("Which sandwich do you want ? (Please enter correct name OR stop)");
+                String sandName = scanner.nextLine();
+                if (sandName.equalsIgnoreCase("stop")) break;
+                try {
+                    Sandwich sandwich = sandwichService.getSandwichByName(sandName);
+                    if (sandwich instanceof Normal normalSandwich) {
+                        System.out.println("Do you want vegetables? (Y/N)");
+                        normalSandwich.setSalad(scanner.nextLine().equalsIgnoreCase("y"));
+                    }
+                    System.out.println("Which kind of bread? Grey or White");
+                    String kindBread = scanner.nextLine();
+                    if (kindBread.substring(0, 1).equalsIgnoreCase("g")) {
+                        sandwich.setKind(BreadType.GREY);
+                    } else {
+                        sandwich.setKind(BreadType.WHITE);
+                    }
+                    order.addSandwich(sandwich);
+                } catch (SandwichNotFoundException e) {
+                    System.out.println(e.getMessage());
+                } catch (MaxSandwichesReachedException e) {
+                    System.out.println(e.getMessage());
+                    break;
+                }
+
+            } while (true);
             orderService.registerNewOrder(order);
-            System.out.println(orderService.printOutOrder());
-            System.out.println(orderService.printOutOrderASCII());
-            orderService.printOutOrderASCII(Path.of("C:\\temp\\javacourses\\BDB_out.txt").toFile());
+            System.out.println("Do you have another student to register ? (yes or No)");
+            String nextStudent = scanner.nextLine();
+            if (nextStudent.substring(0, 1).equalsIgnoreCase("n")) break;
+        } while (true);
 
-        } catch (PersonNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        Person officeMgr = new OfficeManager("Sandy", "Schillebeeckx", "sandy.Schillebeeckx@abis.com");
-        try {
-            sandwichService.addSandwich(officeMgr, new Chicken("Poulet à l'andalouse", "Andalusische kip", 3.7D));
-        } catch (SandwichAlreadyExistsException | NotAuthorizedException e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println("-----------------");
-        System.out.println(sandwichService.printListOfAllSandwiches());
+        System.out.println(orderService.printOutOrder());
+//        System.out.println(orderService.printOutOrderASCII());
+        String pathOrderFile = "C:\\temp\\javacourses\\BDB_out.txt";
+        orderService.printOutOrderASCII(Path.of(pathOrderFile).toFile());
+        System.out.println("The order has been saved under <" + pathOrderFile + ">");
 
-        try {
-            sandwichService.removeSandwich(officeMgr, "jambon");
-        } catch (NotAuthorizedException | SandwichNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+    }
 
-        System.out.println(sandwichService.printListOfAllSandwiches());
+    private static Person createNewPerson(String email) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What is the firstname of Student ?");
+        String firstname = scanner.nextLine();
+        System.out.println("What is the lastname of student ?");
+        String lastName = scanner.nextLine();
+
+        return new Student(firstname, lastName, email, null);
     }
 }
