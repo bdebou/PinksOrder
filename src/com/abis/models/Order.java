@@ -2,7 +2,7 @@ package com.abis.models;
 
 import com.abis.models.actors.Person;
 import com.abis.models.sandwiches.Sandwich;
-import exception.MaxSandwichesReachedException;
+import com.abis.models.exceptions.MaxSandwichesReachedException;
 
 import java.util.ArrayList;
 import java.util.List;
