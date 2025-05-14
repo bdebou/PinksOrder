@@ -19,9 +19,9 @@ public class Student extends CanOrderSandwich {
     }
 
     @Override
-    public String getCSVFormat() {
+    public String getCSVLine() {
         StringBuilder sb = new StringBuilder()
-                .append(super.getCSVFormat())
+                .append(super.getCSVLine())
                 .append(';')
                 .append(this.getCompanyName());
 
