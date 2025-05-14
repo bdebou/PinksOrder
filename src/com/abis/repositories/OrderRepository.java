@@ -10,4 +10,5 @@ public interface OrderRepository {
     List<Order> getAll();
     void addOrder(Order order);
     Order getByPerson(Person person) throws OrderNotFoundException;
+    void writeOrderHistory(Order order);
 }
