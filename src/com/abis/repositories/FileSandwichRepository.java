@@ -74,9 +74,10 @@ public class FileSandwichRepository implements SandwichRepository {
             tmpFile = File.createTempFile("sandwich", null);
 
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(tmpFile, StandardCharsets.UTF_8))) {
-                String csvLine;
-                /* escape the header line */
+                /* Add the header line */
                 bw.write("Type;NameFR;DescFR;NameNL;DescNL;Price");
+                bw.write(System.lineSeparator());
+
                 for (Sandwich sandwich : this.sandwiches) {
                     bw.write(sandwich.getCSVLine());
                     bw.write(System.lineSeparator());
