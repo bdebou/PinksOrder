@@ -45,8 +45,8 @@ public abstract class HasDescription extends Sandwich {
         return sb.toString();
     }
 
-    @Override
+        @Override
     public String toString() {
-        return this.getNameFR() + "(" + this.getFrDescription() + ")";
+        return this.getNlDescription() + "(" + this.getNlDescription() + ")";
     }
 }

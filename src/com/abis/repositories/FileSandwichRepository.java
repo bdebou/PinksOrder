@@ -115,5 +115,6 @@ public class FileSandwichRepository implements SandwichRepository {
     public void removeSandwich(String nameOfSandwich) throws SandwichNotFoundException {
         Sandwich sandwichToRemove = this.getSandwichByName(nameOfSandwich);
         this.sandwiches.remove(sandwichToRemove);
+        this.save();
     }
 }

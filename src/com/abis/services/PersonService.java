@@ -4,6 +4,8 @@ import com.abis.models.actors.Person;
 import com.abis.repositories.UnitOfWork;
 import com.abis.repositories.exceptions.PersonNotFoundException;
 
+import java.util.List;
+
 public class PersonService {
     private final UnitOfWork uow;
 
@@ -17,5 +19,9 @@ public class PersonService {
 
     public Person getPersonByName(String firstName, String lastName) throws PersonNotFoundException {
         return this.uow.getPersonRepository().getPersonByName(firstName, lastName);
+    }
+
+    public List<Person> getAll() {
+        return this.uow.getPersonRepository().getAll();
     }
 }

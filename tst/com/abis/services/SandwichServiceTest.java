@@ -11,16 +11,16 @@ import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.services.exceptions.NotAuthorizedException;
 import org.apache.logging.log4j.core.util.Assert;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SandwichServiceTest {
+
     private static UnitOfWork uow;
     private SandwichService sandwichService;
 
@@ -49,7 +49,7 @@ public class SandwichServiceTest {
 
     @Test
     public void getOneSandwichByItsNameButNotFound() {
-        assertThrows(SandwichNotFoundException.class, () -> sandwichService.getSandwichByName("goudddaaaa"));
+        assertThrows(SandwichNotFoundException.class, () -> sandwichService.getSandwichByName("TEST_28"));
     }
 
     @Test
@@ -74,11 +74,12 @@ public class SandwichServiceTest {
     }
 
     @Test
+    @Order(1)
     public void addNewSandwichNotExistingByOfficeManager() throws SandwichAlreadyExistsException, NotAuthorizedException, SandwichNotFoundException {
-        Sandwich sandwichToAdd = new Chicken("Poulet à l'Andalouse", "Andalusische kip", 3.76D);
+        Sandwich sandwichToAdd = new Chicken("TEST", "TEST", 3.76D);
         Person oMgr = new OfficeManager("John", "Doe", "john.doe@gmail.com");
         sandwichService.addSandwich(oMgr, sandwichToAdd);
-        Sandwich sandwichAdded = sandwichService.getSandwichByName("Andalusische kip");
+        Sandwich sandwichAdded = sandwichService.getSandwichByName("TEST");
         assertEquals(sandwichToAdd, sandwichAdded);
     }
 
@@ -95,10 +96,11 @@ public class SandwichServiceTest {
     }
 
     @Test
+    @Order(2)
     public void removeExistingSandwichByOfficeManager() throws SandwichNotFoundException, NotAuthorizedException {
         Person person = new OfficeManager("John", "Doe", "john.doe@gmail.com");
-        sandwichService.removeSandwich(person, "gouda");
-        assertThrows(SandwichNotFoundException.class, () -> sandwichService.getSandwichByName("gouda"));
+        sandwichService.removeSandwich(person, "TEST");
+        assertThrows(SandwichNotFoundException.class, () -> sandwichService.getSandwichByName("TEST"));
     }
 
     @Test
@@ -114,8 +116,9 @@ public class SandwichServiceTest {
     }
 
     @Test
+    @Order(3)
     public void removeNonExistingSandwichByOfficeManager() throws SandwichNotFoundException, NotAuthorizedException {
         Person person = new OfficeManager("John", "Doe", "john.doe@gmail.com");
-        assertThrows(SandwichNotFoundException.class, () -> sandwichService.removeSandwich(person, "goudazzzzz"));
+        assertThrows(SandwichNotFoundException.class, () -> sandwichService.removeSandwich(person, "TEST"));
     }
 }

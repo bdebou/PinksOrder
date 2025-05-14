@@ -32,4 +32,13 @@ public abstract class Normal extends Sandwich {
 
         return sb.toString();
     }
+
+    @Override
+    public String getInfo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString())
+                .append('/')
+                .append(this.isSalad() ? "met sla" : "zonder sla");
+        return sb.toString();
+    }
 }
