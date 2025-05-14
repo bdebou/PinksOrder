@@ -99,6 +99,6 @@ public class OrderService {
     public void registerNewOrder(Order order) {
 //TODO Write code to register new order in repository, don't forget to check if are not OfficeManager
         this.unitOfWork.getOrderRepository().addOrder(order);
-        this.unitOfWork.getOrderRepository().writeOrderHistory(order);
+//        this.unitOfWork.getOrderRepository().writeOrderHistory(order);
     }
 }

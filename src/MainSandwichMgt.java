@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 public class MainSandwichMgt {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("MainSandwichStrings", Locale.FRENCH);
+    private static ResourceBundle bundle = ResourceBundle.getBundle("MainSandwichStrings",Locale.getDefault());
 
     public static void main(String[] args) {
         UnitOfWork uow = new UnitOfWork();
