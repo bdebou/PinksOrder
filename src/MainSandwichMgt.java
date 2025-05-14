@@ -1,4 +1,3 @@
-import com.abis.models.actors.Instructor;
 import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
 import com.abis.models.sandwiches.*;
@@ -10,11 +9,17 @@ import com.abis.repositories.exceptions.TypeNotImplementedException;
 import com.abis.services.PersonService;
 import com.abis.services.SandwichService;
 import com.abis.services.exceptions.NotAuthorizedException;
+import net.bytebuddy.asm.Advice;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class MainSandwichMgt {
+
+    private static ResourceBundle bundle = ResourceBundle.getBundle("MainSandwichStrings", Locale.FRENCH);
+
     public static void main(String[] args) {
         UnitOfWork uow = new UnitOfWork();
         SandwichService sandwichService = new SandwichService(uow);
@@ -22,24 +27,24 @@ public class MainSandwichMgt {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Hello, Who are you ?");
-        System.out.println("Please provide your email address:");
+        System.out.println(bundle.getString("main.hello"));
+        System.out.println(bundle.getString("main.wru"));
         String email = scanner.nextLine();
 
         try {
-            OfficeManager officeManager = (OfficeManager) personService.getPersonByEmail(email);
+            Person officeManager =  personService.getPersonByEmail(email);
             do {
                 try {
-                    System.out.println("Do you want to Add or Remove a sandwich or stop to quit? (A/R)");
+                    System.out.println(bundle.getString("main.question1"));
                     String action = scanner.nextLine();
-                    if (action.equalsIgnoreCase("stop")) {
+                    if (action.equalsIgnoreCase(bundle.getString("main.stop"))) {
                         break;
-                    } else if (action.substring(0, 1).equalsIgnoreCase("A")) {
+                    } else if (action.substring(0, 1).equalsIgnoreCase(bundle.getString("main.action.add").substring(0, 1))) {
                         createNewSandwich(sandwichService, officeManager);
-                    } else if (action.substring(0, 1).equalsIgnoreCase("R")) {
+                    } else if (action.substring(0, 1).equalsIgnoreCase(bundle.getString("main.action.remove").substring(0, 1))) {
                         removeSandwich(sandwichService, officeManager);
                     } else {
-                        System.out.println("Wrong action, please retry");
+                        System.out.println(bundle.getString("main.action.wrong"));
                     }
 
                 } catch (SandwichNotFoundException | TypeNotImplementedException | SandwichAlreadyExistsException e) {
@@ -48,7 +53,7 @@ public class MainSandwichMgt {
             } while (true);
         } catch (PersonNotFoundException | NotAuthorizedException e) {
             System.out.println(e.getMessage());
-            System.out.println("You are not an OfficeManager");
+            System.out.println(bundle.getString("main.notOfficeMgr"));
         }
 
     }
@@ -57,50 +62,50 @@ public class MainSandwichMgt {
         Scanner scanner = new Scanner(System.in);
         System.out.println(sandwichService.printListOfAllSandwiches());
         do {
-            System.out.println("Which sandwich do you want to remove from the list above ? (or stop to quit)");
+            System.out.println(bundle.getString("main.removeSandwich.question"));
             String sandwichToRemove = scanner.nextLine();
-            if ("stop".equalsIgnoreCase(sandwichToRemove)) break;
+            if (bundle.getString("main.stop").equalsIgnoreCase(sandwichToRemove)) break;
             sandwichService.removeSandwich(person, sandwichToRemove);
         } while (true);
     }
 
     private static void createNewSandwich(SandwichService sandwichService, Person person) throws TypeNotImplementedException, SandwichAlreadyExistsException, NotAuthorizedException {
         Scanner scanner = new Scanner(System.in);
-        List<String> lstTypes = List.of("Meat", "Chicken", "Cheese", "Fish", "Special", "Vegetarian");
+        List<String> lstTypes = List.of(
+                bundle.getString("main.sandwich.type.meat"),
+                bundle.getString("main.sandwich.type.chicken"),
+                bundle.getString("main.sandwich.type.cheese"),
+                bundle.getString("main.sandwich.type.fish"),
+                bundle.getString("main.sandwich.type.special"),
+                bundle.getString("main.sandwich.type.vegetarian")
+        );
         String typeSandwich;
         do {
-            System.out.println("""
-                    Which kind of Sandwich ?:
-                    - Meat
-                    - Chicken
-                    - Cheese
-                    - Fish
-                    - Special
-                    - Vegetarian""");
+            System.out.println(bundle.getString("main.sandwich.add.question.type"));
             typeSandwich = scanner.nextLine();
         } while (!lstTypes.contains(typeSandwich));
 
-        System.out.println("What is the French name of new sandwich ?");
+        System.out.println(bundle.getString("main.sandwich.add.question.nameFR"));
         String frName = scanner.nextLine();
-        System.out.println("What is the Dutch name of new sandwich ?");
+        System.out.println(bundle.getString("main.sandwich.add.question.nameNL"));
         String nlName = scanner.nextLine();
         String frDesc = "";
         String nlDesc = "";
-        if (typeSandwich.equalsIgnoreCase("Special") || typeSandwich.equalsIgnoreCase("Vegetarian")) {
-            System.out.println("What is its French description ?");
+        if (typeSandwich.equalsIgnoreCase(bundle.getString("main.sandwich.type.special")) || typeSandwich.equalsIgnoreCase(bundle.getString("main.sandwich.type.vegetarian"))) {
+            System.out.println(bundle.getString("main.sandwich.add.question.descriptionFR"));
             frDesc = scanner.nextLine();
-            System.out.println("What is its Dutch description ?");
+            System.out.println(bundle.getString("main.sandwich.add.question.descriptionNL"));
             nlDesc = scanner.nextLine();
         }
-        System.out.println("What is its price ?");
-        double price = scanner.nextDouble();
-        Sandwich sandwich = switch (typeSandwich) {
-            case "Meat" -> new Meat(frName, nlName, price);
-            case "Chicken" -> new Chicken(frName, nlName, price);
-            case "Cheese" -> new Cheese(frName, nlName, price);
-            case "Fish" -> new Fish(frName, nlName, price);
-            case "Special" -> new Special(frName, nlName, frDesc, nlDesc, price);
-            case "Vegetarian" -> new Vegetarian(frName, nlName, frDesc, nlDesc, price);
+        System.out.println(bundle.getString("main.sandwich.add.question.price"));
+        double price =Double.parseDouble(scanner.nextLine());
+        Sandwich sandwich = switch (typeSandwich.toLowerCase()) {
+            case "meat" -> new Meat(frName, nlName, price);
+            case "chicken" -> new Chicken(frName, nlName, price);
+            case "cheese" -> new Cheese(frName, nlName, price);
+            case "fish" -> new Fish(frName, nlName, price);
+            case "special" -> new Special(frName, nlName, frDesc, nlDesc, price);
+            case "vegetarian" -> new Vegetarian(frName, nlName, frDesc, nlDesc, price);
             default -> throw new TypeNotImplementedException(typeSandwich);
         };
         sandwichService.addSandwich(person, sandwich);
