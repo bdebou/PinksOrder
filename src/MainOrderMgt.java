@@ -13,10 +13,15 @@ import com.abis.services.SandwichService;
 import com.abis.models.exceptions.MaxSandwichesReachedException;
 
 import java.nio.file.Path;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class MainOrderMgt {
+    private static ResourceBundle bundle = ResourceBundle.getBundle("MainOrderStrings", Locale.getDefault());
+
     public static void main(String[] args) {
+
         UnitOfWork uow = new UnitOfWork();
         OrderService orderService = new OrderService(uow);
         SandwichService sandwichService = new SandwichService(uow);
@@ -24,11 +29,11 @@ public class MainOrderMgt {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Hello and welcome to order your sandwich !");
-        System.out.println("Please enter the Session name ?");
+        System.out.println(bundle.getString("main.hello"));
+        System.out.println(bundle.getString("main.question.sessionName"));
         String sessionName = scanner.nextLine();
         do {
-            System.out.println("What is the email address of student ?");
+            System.out.println(bundle.getString("main.question.student.email"));
             String emailStudent = scanner.nextLine();
             Person student;
             try {
@@ -44,18 +49,18 @@ public class MainOrderMgt {
             System.out.println(sandwichService.printListOfAllSandwiches());
             Order order = new Order(sessionName, student);
             do {
-                System.out.println("Which sandwich do you want ? (Please enter correct name OR stop)");
+                System.out.println(bundle.getString("main.question.order.sandwich"));
                 String sandName = scanner.nextLine();
-                if (sandName.equalsIgnoreCase("stop")) break;
+                if (sandName.equalsIgnoreCase(bundle.getString("main.stop"))) break;
                 try {
                     Sandwich sandwich = sandwichService.getSandwichByName(sandName);
                     if (sandwich instanceof Normal normalSandwich) {
-                        System.out.println("Do you want vegetables? (Y/N)");
-                        normalSandwich.setSalad(scanner.nextLine().equalsIgnoreCase("y"));
+                        System.out.println(bundle.getString("main.question.order.vegetables"));
+                        normalSandwich.setSalad(scanner.nextLine().substring(0, 1).equalsIgnoreCase(bundle.getString("main.answer.yes").substring(0, 1)));
                     }
-                    System.out.println("Which kind of bread? Grey or White");
+                    System.out.println(bundle.getString("main.question.order.kindBread"));
                     String kindBread = scanner.nextLine();
-                    if (kindBread.substring(0, 1).equalsIgnoreCase("g")) {
+                    if (kindBread.substring(0, 1).equalsIgnoreCase(bundle.getString("main.answer.order.kindBread.grey").substring(0, 1))) {
                         sandwich.setKind(BreadType.GREY);
                     } else {
                         sandwich.setKind(BreadType.WHITE);
@@ -70,24 +75,24 @@ public class MainOrderMgt {
 
             } while (true);
             orderService.registerNewOrder(order);
-            System.out.println("Do you have another student to register ? (yes or No)");
+            System.out.println(bundle.getString("main.question.nextStudent"));
             String nextStudent = scanner.nextLine();
-            if (nextStudent.substring(0, 1).equalsIgnoreCase("n")) break;
+            if (nextStudent.substring(0, 1).equalsIgnoreCase(bundle.getString("main.answer.no").substring(0, 1))) break;
         } while (true);
 
         System.out.println(orderService.printOutOrder());
 //        System.out.println(orderService.printOutOrderASCII());
         String pathOrderFile = "C:\\temp\\javacourses\\BDB_out.txt";
         orderService.printOutOrderASCII(Path.of(pathOrderFile).toFile());
-        System.out.println("The order has been saved under <" + pathOrderFile + ">");
+        System.out.println(String.format(bundle.getString("main.info.savedLocation"), pathOrderFile));
 
     }
 
     private static Person createNewPerson(String email) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("What is the firstname of Student ?");
+        System.out.println(bundle.getString("main.question.student.firstName"));
         String firstname = scanner.nextLine();
-        System.out.println("What is the lastname of student ?");
+        System.out.println(bundle.getString("main.question.student.lastName"));
         String lastName = scanner.nextLine();
 
         return new Student(firstname, lastName, email, null);
