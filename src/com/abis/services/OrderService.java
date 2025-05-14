@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class OrderService {
-    public UnitOfWork unitOfWork;
+    private final UnitOfWork unitOfWork;
 
     public OrderService(UnitOfWork uow) {
         this.unitOfWork = uow;
