@@ -77,22 +77,22 @@ public class OrderService {
 
         AsciiTable at = new AsciiTable();
         at.addRule();
-        AT_Row title = at.addRow(null, null, "Broodjes (Pinky's)");
+        AT_Row title = at.addRow( null, "Broodjes (Pinky's)");
         title.setTextAlignment(TextAlignment.LEFT);
         at.addRule();
         for (Order order : orderRepository.getAll()) {
-            at.addRow(null, null, String.format("Naam: %s", order.getOrderingPerson()));
-            at.addRow(null, null, String.format("Training: %s", order.getCourse()));
+            at.addRow( null, String.format("Naam: %s", order.getOrderingPerson()));
+            at.addRow( null, String.format("Training: %s", order.getCourse()));
             for (Sandwich sandwich : order.getSandwiches()) {
                 at.addRule();
                 if (sandwich instanceof Normal normalSandwich) {
-                    at.addRow(normalSandwich.getNameNL(), normalSandwich.isSalad() ? "Ya" : "Nee", normalSandwich.getKind().toString());
+                    at.addRow(String.format("%s (%s)", normalSandwich.getNameNL(), normalSandwich.isSalad() ? "met sla" : "zonder sla"), normalSandwich.getKind().toString());
                 } else if (sandwich instanceof HasDescription specialSandwich) {
-                    at.addRow(null, String.format("%s (%s)", specialSandwich.getNameNL(), specialSandwich.getNlDescription()), specialSandwich.getKind().toString());
+                    at.addRow( String.format("%s (%s)", specialSandwich.getNameNL(), specialSandwich.getNlDescription()), specialSandwich.getKind().toString());
                 }
             }
+            at.addRule();
         }
-        at.addRule();
         return at.render();
     }
 
