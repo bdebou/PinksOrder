@@ -17,7 +17,7 @@ import java.util.List;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) throws PersonNotFoundException, SandwichNotFoundException, MaxSandwichesReachedException, OrderNotFoundException {
-        FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
+        FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/sandwiches.csv").toFile());
         FilePersonRepository filePersonRepository = new FilePersonRepository();
         FileOrderRepository fileOrderRepository= new FileOrderRepository();
 

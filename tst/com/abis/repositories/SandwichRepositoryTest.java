@@ -26,7 +26,7 @@ public class SandwichRepositoryTest {
 
     @BeforeAll
     public static void init() {
-        sandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
+        sandwichRepository = new FileSandwichRepository(Path.of("inputcsv/sandwiches.csv").toFile());
     }
 
     @Test
