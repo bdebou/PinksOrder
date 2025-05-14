@@ -5,6 +5,7 @@ import com.abis.models.actors.Student;
 import com.abis.models.enums.BreadType;
 import com.abis.models.sandwiches.*;
 import com.abis.repositories.UnitOfWork;
+import com.abis.repositories.exceptions.PersonAlreadyExistsException;
 import com.abis.repositories.exceptions.PersonNotFoundException;
 import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
@@ -38,7 +39,11 @@ public class MainBruno {
                 student = personService.getPersonByEmail(emailStudent);
             } catch (PersonNotFoundException e) {
                 student = createNewPerson(emailStudent);
-                PersonService.addNewStudent(student);
+                try {
+                    personService.addNewStudent(student);
+                } catch (PersonAlreadyExistsException ex) {
+                    System.out.println(e.getMessage());
+                }
             }
             System.out.println(sandwichService.printListOfAllSandwiches());
             Order order = new Order(sessionName, student);
