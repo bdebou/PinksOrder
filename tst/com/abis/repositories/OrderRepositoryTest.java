@@ -18,7 +18,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void getByPersonOrderNotFoundException() throws SandwichNotFoundException, MaxSandwichesReachedException, OrderNotFoundException {
-        FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
+        FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/sandwiches.csv").toFile());
         Person person = new Student("Raghunath", "Singh", "rgu@gmail.com", "TCS");
         Person person2 = new Student("Raghu", "Singh", "rgu2@gmail.com", "TCS");
         Order order = new Order("JAVA", person);
@@ -35,7 +35,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void getByPersonOrderFound() throws SandwichNotFoundException, MaxSandwichesReachedException, OrderNotFoundException {
-        FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/input.csv").toFile());
+        FileSandwichRepository fileSandwichRepository = new FileSandwichRepository(Path.of("inputcsv/sandwiches.csv").toFile());
         Person person = new Student("Raghunath", "Singh", "rgu@gmail.com", "TCS");
         Person person2 = new Student("Raghu", "Singh", "rgu2@gmail.com", "TCS");
         Order order = new Order("JAVA", person);
