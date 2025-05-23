@@ -4,6 +4,7 @@ import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
 import com.abis.models.sandwiches.Sandwich;
 import com.abis.repositories.PersonRepository;
+import com.abis.repositories.SandwichRepository;
 import com.abis.repositories.UnitOfWork;
 import com.abis.repositories.exceptions.PersonNotFoundException;
 import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
@@ -16,25 +17,35 @@ import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import java.util.List;
 
 public class SandwichService {
-    private final UnitOfWork uow;
+    private final SandwichRepository sandwichRepository;
+    private final PersonRepository personRepository;
 
     public SandwichService(UnitOfWork uow) {
-        this.uow = uow;
+        this.sandwichRepository = uow.getSandwichRepository();
+        this.personRepository = uow.getPersonRepository();
     }
 
     public List<Sandwich> getAllSandwiches() {
-        return this.uow.getSandwichRepository().getAll();
+        return this.sandwichRepository.getAll();
+    }
+
+    public void addSandwich(String email, Sandwich sandwich) throws PersonNotFoundException, SandwichAlreadyExistsException, NotAuthorizedException {
+        this.addSandwich(this.personRepository.getPersonByEmail(email), sandwich);
     }
 
     public void addSandwich(Person person, Sandwich sandwich) throws SandwichAlreadyExistsException, NotAuthorizedException {
         if (this.amIAuthorized(person)) {
-            this.uow.getSandwichRepository().addSandwich(sandwich);
+            this.sandwichRepository.addSandwich(sandwich);
         }
+    }
+
+    public void removeSandwich(String email, String nameOfSandwich) throws PersonNotFoundException, NotAuthorizedException, SandwichNotFoundException {
+        this.removeSandwich(this.personRepository.getPersonByEmail(email), nameOfSandwich);
     }
 
     public void removeSandwich(Person person, String nameOfSandwich) throws NotAuthorizedException, SandwichNotFoundException {
         if (this.amIAuthorized(person)) {
-            this.uow.getSandwichRepository().removeSandwich(nameOfSandwich);
+            this.sandwichRepository.removeSandwich(nameOfSandwich);
         }
     }
 
@@ -46,7 +57,7 @@ public class SandwichService {
     }
 
     public Sandwich getSandwichByName(String name) throws SandwichNotFoundException {
-        return this.uow.getSandwichRepository().getSandwichByName(name);
+        return this.sandwichRepository.getSandwichByName(name);
     }
 
     public String printListOfAllSandwiches() {
@@ -55,7 +66,7 @@ public class SandwichService {
         AT_Row title = at.addRow("Type", "Naam", "Groeten Ja/Nee", "Grijs/Wit");
         title.setTextAlignment(TextAlignment.CENTER);
         at.addRule();
-        for (Sandwich sandwich : this.uow.getSandwichRepository().getAll()) {
+        for (Sandwich sandwich : this.sandwichRepository.getAll()) {
             at.addRow(sandwich.getClass().getSimpleName(), sandwich.getNameNL(), "", "");
         }
         at.addRule();
@@ -63,11 +74,10 @@ public class SandwichService {
     }
 
     public Person getOfficeManagerByEmail(String email) throws PersonNotFoundException, NotAuthorizedException {
-        PersonRepository personRepository = this.uow.getPersonRepository();
-        Person person= personRepository.getPersonByEmail(email);
-        if(person instanceof  OfficeManager){
+        Person person = this.personRepository.getPersonByEmail(email);
+        if (person instanceof OfficeManager) {
             return person;
-        }else {
+        } else {
             throw new NotAuthorizedException(person);
         }
     }
