@@ -7,6 +7,8 @@ import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.repositories.exceptions.TypeNotImplementedException;
 import com.abis.services.SandwichService;
 import com.abis.services.exceptions.NotAuthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Locale;
@@ -15,12 +17,13 @@ import java.util.Scanner;
 
 public class MainSandwichMgt {
 
+    private static final Logger log = LoggerFactory.getLogger(MainSandwichMgt.class);
     private static ResourceBundle bundle = ResourceBundle.getBundle("MainSandwichStrings", Locale.getDefault());
 
     public static void main(String[] args) {
         UnitOfWork uow = new UnitOfWork();
         SandwichService sandwichService = new SandwichService(uow);
-
+        log.info("Start Application");
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(bundle.getString("main.hello"));
