@@ -18,12 +18,12 @@ import java.util.Scanner;
 
 public class MainSandwichMgt {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle("MainSandwichStrings",Locale.getDefault());
+    private static ResourceBundle bundle = ResourceBundle.getBundle("MainSandwichStrings", Locale.getDefault());
 
     public static void main(String[] args) {
         UnitOfWork uow = new UnitOfWork();
         SandwichService sandwichService = new SandwichService(uow);
-        PersonService personService = new PersonService(uow);
+//        PersonService personService = new PersonService(uow);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -32,7 +32,7 @@ public class MainSandwichMgt {
         String email = scanner.nextLine();
 
         try {
-            Person officeManager =  personService.getPersonByEmail(email);
+            Person officeManager = sandwichService.getOfficeManagerByEmail(email);
             do {
                 try {
                     System.out.println(bundle.getString("main.question1"));
@@ -40,7 +40,8 @@ public class MainSandwichMgt {
                     if (action.equalsIgnoreCase(bundle.getString("main.stop"))) {
                         break;
                     } else if (action.substring(0, 1).equalsIgnoreCase(bundle.getString("main.action.add").substring(0, 1))) {
-                        createNewSandwich(sandwichService, officeManager);
+                        Sandwich sandwich = createNewSandwich();
+                        sandwichService.addSandwich(officeManager, sandwich);
                     } else if (action.substring(0, 1).equalsIgnoreCase(bundle.getString("main.action.remove").substring(0, 1))) {
                         removeSandwich(sandwichService, officeManager);
                     } else {
@@ -51,8 +52,9 @@ public class MainSandwichMgt {
                     System.out.println(e.getMessage());
                 }
             } while (true);
-        } catch (PersonNotFoundException | NotAuthorizedException e) {
+        } catch (PersonNotFoundException e) {
             System.out.println(e.getMessage());
+        } catch (NotAuthorizedException e) {
             System.out.println(bundle.getString("main.notOfficeMgr"));
         }
 
@@ -69,7 +71,7 @@ public class MainSandwichMgt {
         } while (true);
     }
 
-    private static void createNewSandwich(SandwichService sandwichService, Person person) throws TypeNotImplementedException, SandwichAlreadyExistsException, NotAuthorizedException {
+    private static Sandwich createNewSandwich() throws TypeNotImplementedException {
         Scanner scanner = new Scanner(System.in);
         List<String> lstTypes = List.of(
                 bundle.getString("main.sandwich.type.meat"),
@@ -98,7 +100,7 @@ public class MainSandwichMgt {
             nlDesc = scanner.nextLine();
         }
         System.out.println(bundle.getString("main.sandwich.add.question.price"));
-        double price =Double.parseDouble(scanner.nextLine());
+        double price = Double.parseDouble(scanner.nextLine());
         Sandwich sandwich = switch (typeSandwich.toLowerCase()) {
             case "meat" -> new Meat(frName, nlName, price);
             case "chicken" -> new Chicken(frName, nlName, price);
@@ -108,6 +110,6 @@ public class MainSandwichMgt {
             case "vegetarian" -> new Vegetarian(frName, nlName, frDesc, nlDesc, price);
             default -> throw new TypeNotImplementedException(typeSandwich);
         };
-        sandwichService.addSandwich(person, sandwich);
+        return sandwich;
     }
 }
