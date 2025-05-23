@@ -3,7 +3,9 @@ package com.abis.services;
 import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
 import com.abis.models.sandwiches.Sandwich;
+import com.abis.repositories.PersonRepository;
 import com.abis.repositories.UnitOfWork;
+import com.abis.repositories.exceptions.PersonNotFoundException;
 import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.services.exceptions.NotAuthorizedException;
@@ -58,5 +60,15 @@ public class SandwichService {
         }
         at.addRule();
         return at.render();
+    }
+
+    public Person getOfficeManagerByEmail(String email) throws PersonNotFoundException, NotAuthorizedException {
+        PersonRepository personRepository = this.uow.getPersonRepository();
+        Person person= personRepository.getPersonByEmail(email);
+        if(person instanceof  OfficeManager){
+            return person;
+        }else {
+            throw new NotAuthorizedException(person);
+        }
     }
 }
