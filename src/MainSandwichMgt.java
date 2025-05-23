@@ -1,4 +1,3 @@
-import com.abis.models.actors.OfficeManager;
 import com.abis.models.actors.Person;
 import com.abis.models.sandwiches.*;
 import com.abis.repositories.UnitOfWork;
@@ -6,10 +5,8 @@ import com.abis.repositories.exceptions.PersonNotFoundException;
 import com.abis.repositories.exceptions.SandwichAlreadyExistsException;
 import com.abis.repositories.exceptions.SandwichNotFoundException;
 import com.abis.repositories.exceptions.TypeNotImplementedException;
-import com.abis.services.PersonService;
 import com.abis.services.SandwichService;
 import com.abis.services.exceptions.NotAuthorizedException;
-import net.bytebuddy.asm.Advice;
 
 import java.util.List;
 import java.util.Locale;
@@ -23,7 +20,6 @@ public class MainSandwichMgt {
     public static void main(String[] args) {
         UnitOfWork uow = new UnitOfWork();
         SandwichService sandwichService = new SandwichService(uow);
-//        PersonService personService = new PersonService(uow);
 
         Scanner scanner = new Scanner(System.in);
 
